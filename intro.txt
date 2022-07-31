@@ -1,0 +1,166 @@
+postgreSQL -система управлния базами данных(СУБД\DBMS)
+это рядо программ и инструментов позволющих создавать базы данных, администрововать ею,
+ и манипулировать данными в ней.
+
+postgres = сама база данных, оно реалиционнная, то есть данные хранятся в виде таблиц и таблицы имеют связи между собой.
+
+SQL(structured Query language) - дикларативный язык структурированных звпросов, он применяется для создания  и управления данными.
+
+типы полей  в postgres:
+1. Numeric types:
+    a)smallint(2 bytes)->-32767 to 32767
+    b)integer(4 bytes)-> -2147000 to 2147000
+    c) bigint(8 bytes)_> ///
+    d)serial(4 bytes)->auto-increment(integer), 1-2147000)
+    e)real(4 bytes)->числа с плавающей точкой
+    f)double precision(8 bytes)-> числа с плавающей точкой с двойной точностью
+
+2.chracter types(строковые типы):
+    a)varchar(255pole) -> можем указать максимальное количество символов в ручную. если мы укажем 50 символов, но заполним всего лишь символов, то остальные сорок останутся незполненными(свободными либо пустыми)
+    b)char(255)> если не заполните символы, то остальные будут заполнены пробелами.
+    c)text- нет ограничения количества символов. 
+
+
+3. boolean types:
+    a)boolean(1 bytes)-> true or false
+
+
+4. date -> календарная дата(год, месяц, день)
+
+
+
+
+
+Constrains(ограничения):
+    a. NOYNULL
+    2. UNIQUE
+    3. CHECK number> 5
+    4.Primary key \ forign key
+    
+
+связи между таблицами
+1.1 к 1
+2.1 ко многим
+3.много ко многим
+
+
+1.имя человека(1 к 1)
+2. человек к банкомским картам(1 ко многим)
+3. студенты и учителя(много ко многим)
+
+
+
+create database создать базу
+\c <database> перейти в нее
+create table создать таблицу
+\ве просмореь таблицу
+select *from <table> просмотреть что то в таблице
+insert into доавить элементы в таблицу
+
+
+# Создание базы данных
+# create database <name>;/CREATE DATABASE <name>;
+
+# \l - список всех баз данных
+
+# \c <название бд> - подлкючает нас к выбранной бд
+
+# \dt - выводит список всех таблиц
+
+# \du - список всех пользователей
+
+# \d <name> - подробная информация таблицы
+
+# CREATE USER <name> WITH PASSWORD 'password'; - создание пользователя
+
+# psql -U <username> -d <dbname> - подключаемся под выбранным username к dbname
+
+
+
+Получение данных с таблицы:
+    SELECT *(ALL) FROM <tablename>
+
+
+DISTINCT: Позволяет нам убирать дубликаты и возвращает только уникальные значения
+
+Синтаксис: SELECT DISTINCT <row> FROM <tablename>
+
+
+ORDER BY: Позволяет нам сортировать выводящие данные по убыванию или возрастанию. ASC(по возрастанию) и DESC(по убыванию) используються для определения сортировки
+
+Синтаксис: SELECT <row> FROM <tablename> ORDER BY <row> ASC/DESC
+
+
+WHERE: Используется для фильтрации по полям. Будут выводиться только те условия которые верны WHERE
+
+Синтаксис: SELECT <row> FROM <tablename> WHERE <row> = 'чему то'
+
+SELECT * FROM products WHERE meat IN ('Bacon', 'Beef');
+
+
+LIKE: Выводит результать который соостветсвует введеному шаблону. Зависит от регистра
+
+ILKIE: Тоже самое только не зависит от регистра
+
+Синтаксис: select * from products where name ilike '%Dw%';
+
+
+LIMIT: Позволяет нам вернуть данные в ограниченном количестве
+
+Синтаксис: SELECT <row> FROM <tablename> LIMI 1;
+
+
+AS(ALIAS): select name, price * quantity as total from products order by total;
+
+BETWEEN: select * from products where quantity between 3 and 8;
+
+
+AVG(), COUNT(), MIN(), MAX(), SUM() - агрегационные функции
+
+
+GROUP BY: разделяет строки, возвращаемы оператором SELECT на группы. И теперь для каждой группы можно применить фукнцию
+
+Синтаксис: SELECT meat, COUNT(*) from products GROUP BY meat;
+
+HAVING: Работает так же как и WHERE только он используется в GROUP BY
+
+JOIN:
+SELECT name, age FROM customers JOIN orders ON customers.id = orders.customer_id;
+
+
+LEFT JOIN: выборка будет содержать все строки из первой или левой таблицы
+
+RIGHT JOIN: выборка будет содержать все строки из второй или правой таблицы
+
+INNER: выводит данные согласно условию
+
+
+
+
+
+НАЙТИ КОЛ-ВО ГЛАВ В КАЖДОМ ПРОИЗВЕДЕНИИ
+# 1.  SELECT COUNT(*),w.title  FROM chapter c JOIN  work w ON w.workid=c.workid GROUP BY w.title  ORDER BY COUNT(*) DESC;
+
+
+# 2.  SELECT COUNT(title),genretype FROM work group by genretype;
+
+# 3.  SELECT  source,title,  totalparagraphs FROM work where source='Moby' and totalparagraphs<100;
+
+
+
+SELECT * FROM wordform LIMIT 10;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
